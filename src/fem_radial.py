@@ -22,24 +22,24 @@ class FemRadial:
         self.C0 = -(hbar**2) / (2 * m_e)
         self.C1 = -(e**2) / (4 * np.pi * epsilon_0)
 
-    def get_block_K(self):
+    def get_block_r2drfdrf(self):
         """運動エネルギーのブロック行列を取得"""
         K = np.zeros((self.N, 2, 2))
         K[:, 0, 0] = K[:, 1, 1] = self.xs**2 + self.xs * self.xs_next + self.xs_next**2
         K[:, 1, 0] = K[:, 0, 1] = -(
             self.xs**2 + self.xs * self.xs_next + self.xs_next**2
         )
-        return -self.C0 * K / 3 / self.element_matrix
+        return K / 3 / self.element_matrix
 
-    def get_block_V(self):
+    def get_block_rff(self):
         """ポテンシャルエネルギーのブロック行列を取得"""
         V = np.zeros((self.N, 2, 2))
         V[:, 0, 0] = 3 * self.xs + self.xs_next
         V[:, 0, 1] = V[:, 1, 0] = self.xs + self.xs_next
         V[:, 1, 1] = self.xs + 3 * self.xs_next
-        return self.C1 * V * self.element_matrix / 12
+        return V * self.element_matrix / 12
 
-    def get_block_M(self):
+    def get_block_r2ff(self):
         M = np.zeros((self.N, 2, 2))
         M[:, 0, 0] = (
             self.element_lengths
@@ -69,3 +69,17 @@ class FemRadial:
         for i in range(self.N):
             A[i : i + 2, i : i + 2] += block[i]
         return A
+
+    def get_K(self):
+        """運動エネルギー行列を取得"""
+        return -self.C0 * self.assemble_matrix(self.get_block_r2drfdrf())
+
+    def get_V(self):
+        """ポテンシャルエネルギー行列を取得"""
+        return self.C1 * self.assemble_matrix(self.get_block_rff())
+
+    def get_M(self):
+        return self.assemble_matrix(self.get_block_r2ff())
+
+    def get_V_poisson(self):
+        return self.assemble_matrix(self.get_block_r2drfdrf())
