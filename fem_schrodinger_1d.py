@@ -1,61 +1,6 @@
 import numpy as np
 
 
-class fem_shrodinger:
-    def __init__(self, L, V):
-        self.N = len(V)
-        self.L = L
-        self.V = V
-        self.le = L / self.N
-        self.hbar = 1.0545718e-34
-        self.m_e = 9.10938356e-31
-
-    def get_Aes(
-        self,
-    ):
-        Aes = np.zeros((self.N, 2, 2))
-        Aes[:, 0, 0] = (
-            self.hbar**2 / (2 * self.m_e)
-            + 1 / 12 * (3 * self.V + np.roll(self.V, -1)) * self.le
-        )
-        Aes[:, 0, 1] = (
-            -(self.hbar**2) / (2 * self.m_e)
-            + 1 / 12 * (self.V + np.roll(self.V, -1)) * self.le
-        )
-        Aes[:, 1, 0] = (
-            -(self.hbar**2) / (2 * self.m_e)
-            + 1 / 12 * (self.V + np.roll(self.V, -1)) * self.le
-        )
-        Aes[:, 1, 1] = (
-            self.hbar**2 / (2 * self.m_e)
-            + 1 / 12 * (self.V + 3 * np.roll(self.V, -1)) * self.le
-        )
-        return Aes
-
-    def get_Be(self):
-        Be = np.array(
-            [
-                [self.le / 3, self.le / 6],
-                [self.le / 6, self.le / 3],
-            ]
-        )
-        return Be
-
-    def get_A(self):
-        A = np.zeros((self.N + 1, self.N + 1))
-        Aes = self.get_Aes()
-        for i in range(self.N):
-            A[i : i + 2, i : i + 2] += Aes[i]
-        return A
-
-    def get_B(self):
-        B = np.zeros((self.N + 1, self.N + 1))
-        Be = self.get_Be()
-        for i in range(self.N):
-            B[i : i + 2, i : i + 2] += Be
-        return B
-
-
 class FemSchrodinger:
     def __init__(self, length, potential):
         """シュレーディンガー方程式のFEM解析クラスの初期化
