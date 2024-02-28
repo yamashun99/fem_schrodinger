@@ -82,4 +82,7 @@ class FemRadial:
         return self.assemble_matrix(self.get_block_r2ff())
 
     def get_V_poisson(self):
-        return self.assemble_matrix(self.get_block_r2drfdrf())
+        return -self.assemble_matrix(self.get_block_r2drfdrf())
+
+    def get_source_poisson(self):
+        return -(e**2) / epsilon_0 * self.assemble_matrix(self.get_block_r2ff())

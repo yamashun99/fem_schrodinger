@@ -1,0 +1,70 @@
+\documentclass[xelatex,ja=standard]{bxjsarticle}
+\setCJKmainfont[BoldFont=NotoSerifCJKjp-Black]{NotoSerifCJKjp-Light}
+\setCJKsansfont[BoldFont=NotoSansCJKjp-Black]{NotoSansCJKjp-Light}
+\setCJKmonofont[BoldFont=NotoSansCJKjp-Black]{NotoSansCJKjp-Light}
+\usepackage{physics}
+\usepackage{bm}
+
+\title{シュレーディンガー方程式を有限要素法で解く}
+\author{山本峻介}
+\date{\today}
+
+\begin{document}
+
+\maketitle
+
+\section{水素原子のシュレーディンガー方程式}
+\subsection{動経成分波動関数}
+水素原子のシュレーディンガー方程式は
+\begin{align}
+    i\hbar\frac{\partial}{\partial t}\psi(\bm{r},t) = -\frac{\hbar^2}{2m}\nabla^2\psi(\bm{r},t) -\frac{e^2}{r}\psi(\bm{r},t)
+\end{align}
+である。ここで、$\psi(\bm{r},t)$は波動関数、$\hbar$はディラック定数、$m$は電子の質量、$e$は電気素量、$\bm{r}$は位置ベクトル、$t$は時間である。
+エネルギーEの固有関数$\psi(\bm{r})$は
+\begin{align}
+    -\frac{\hbar^2}{2m}\nabla^2\psi(\bm{r}) -\frac{e^2}{r}\psi(\bm{r}) = E\psi(\bm{r})
+\end{align}
+動経成分は
+\begin{align}
+    -\frac{\hbar^2}{2m}\qty(\frac{1}{r^2}\dv{r}r^2\dv{r} - \frac{l(l+1)}{r})R(r)
+     - \frac{e^2}{r}R(r) = ER(r)
+\end{align}
+となる。$\chi = rR$を導入すると、
+\begin{align}
+    -\frac{\hbar^2}{2m}\qty(\dv[2]{r} - \frac{l(l+1)}{r^2})\chi - \frac{e^2}{r}\chi = E\chi
+\end{align}
+となる。
+
+\subsection{弱形式}
+固有値方程式
+\begin{align}
+    \dv[2]{x}f + \frac{a}{x^2}f + \frac{b}{x}f = \lambda f 
+\end{align}
+に対して、弱形式を求める。$f$に対してテスト関数$g$を掛けて積分すると、
+\begin{align}
+    \int_0^Lg\qty(\dv[2]{x}f + \frac{a}{x^2}f + \frac{b}{x}f)\dd{x} &= \lambda\int_0^Lgf\dd{x}\notag\\
+    \qty[g\dv{f}{x}]_0^L+\int_0^L\qty(\dv{g}{x}\dv{f}{x} + \frac{a}{x^2}gf + \frac{b}{x}gf)\dd{x}
+     &= \lambda\int_0^Lgf\dd{x}
+\end{align}
+境界条件$\dv{f}{x}|_{x=0} = \dv{f}{x}|_{x=L} = 0$を課すと、
+\begin{align}
+    \int_0^L\qty(\dv{g}{x}\dv{f}{x} + \frac{a}{x^2}gf + \frac{b}{x}gf)\dd{x}
+     &= \lambda\int_0^Lgf\dd{x}
+\end{align}
+となる。
+\subsection{有限要素法}
+区間$\qty[0,L]$を$N$等分する。$e$番目の区間を$[x_e^0,x_e^1]$とし、$g^{0(1)} = g(x=x_e^{0(1)})$, $f^{0(1)} = f(x=x_e^{0(1)})$, $l_e = x_e^1 - x_e^0$とすると、
+\begin{align}
+    g(x) &= \frac{x^1 - x}{l_e}g^0 + \frac{x-x^0}{l_e}g^1\\
+    f(x) &= \frac{x^1 - x}{l_e}f^0 + \frac{x-x^0}{l_e}f^1
+\end{align}
+となる。これを代入すると、
+\begin{align}
+    \int_0^L \dv{g}{x}\dv{f}{x}\dd{x} 
+    &= \sum_{e=1}^N \frac{1}{l_e^2}\int_{x_e^0}^{x_e^1}\qty(-g_e^0 + g_e^1)\qty(-f_e^0 + f_e^1)\dd{x}\notag\\
+    &= \sum_{e=1}^N \frac{1}{l_e^2}\int_{x_e^0}^{x_e^1}\mqty(g_e^0 && g_e^1)\mqty(-1\\1)\mqty(-1 && 1)\mqty(f_e^0 \\ f_e^1)\dd{x}\notag\\
+    &= \sum_{e=1}^N \frac{1}{l_e^2}\int_{x_e^0}^{x_e^1}\mqty(g_e^0 && g_e^1)\mqty(1 && -1 \\ -1 && 1)\mqty(f_e^0 \\ f_e^1)\dd{x}\notag\\
+    &= \sum_{e=1}^N \frac{1}{l_e}\mqty(g_e^0 && g_e^1)\mqty(1 && -1 \\ -1 && 1)\mqty(f_e^0 \\ f_e^1)\notag\\
+\end{align}
+
+\end{document}
