@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.141592653-2.6-0.999993 (TeX Live 2022/dev/Debian) (preloaded format=xelatex 2023.5.31)  2 MAR 2024 18:16
+This is XeTeX, Version 3.141592653-2.6-0.999993 (TeX Live 2022/dev/Debian) (preloaded format=xelatex 2023.5.31)  2 MAR 2024 22:13
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -609,17 +609,17 @@ LaTeX Font Info:    Font shape `TU/NotoSansCJKjp-Light(0)/m/n' will be
 (Font)              scaled to size 11.09656pt on input line 20.
  [1
 
-] [2] [3] (./memo.aux)
+] [2] [3] [4] (./memo.aux)
 Package rerunfilecheck Info: File `memo.out' has not changed.
 (rerunfilecheck)             Checksum: F4079D18EECAECDFE24B49CDB6FD0B51;406.
  ) 
 Here is how much of TeX's memory you used:
  14906 strings out of 476191
  306527 string characters out of 5812072
- 685432 words of memory out of 5000000
+ 695432 words of memory out of 5000000
  35414 multiletter control sequences out of 15000+600000
  479855 words of font info for 99 fonts, out of 8000000 for 9000
  1353 hyphenation exceptions out of 8191
- 105i,18n,112p,496b,342s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 105i,18n,112p,496b,344s stack positions out of 5000i,500n,10000p,200000b,80000s
 
-Output written on memo.pdf (3 pages).
+Output written on memo.pdf (4 pages).

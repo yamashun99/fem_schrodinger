@@ -97,19 +97,30 @@
     &\times\mqty(x^l_1 - x & x-x^l_0)\mqty(f^l_0 \\ f^l_1)
     \dd{x}\notag\\
     =& \frac{1}{12}\sum_{l=1}^N h^l
-    \mqty(g^l_0 & g^l_1) \mqty(3v_0^l +v_1^l & v_0^l +v_1^l\\ v_0^l +v_1^l&v_0^l +3v_1^l)\mqty(f^l_0 \\ f^l_1)
+    \mqty(g^l_0 & g^l_1) \mqty(3v_0^l +v_1^l & v_0^l +v_1^l\\ v_0^l +v_1^l&v_0^l +3v_1^l)\mqty(f^l_0 \\ f^l_1),
+\end{align}
+\begin{align}
+    \int_0^L gf\dd{x}
+    =& \sum_{l=1}^N \frac{1}{{h^l}^2}\int_{x^l_0}^{x^l_1}
+    \qty(\qty(x^l_1 - x)g^l_0 + \qty(x-x^l_0)g^l_1)\qty(\qty(x^l_1 - x)f^l_0 + \qty(x-x^l_0)f^l_1)
+    \dd{x}\notag\\
+    =& \sum_{l=1}^N \frac{1}{{h^l}^2}\int_{x^l_0}^{x^l_1}
+    \mqty(g^l_0 & g^l_1) \mqty(x^l_1 - x \\ x-x^l_0)\mqty(x^l_1 - x & x-x^l_0)\mqty(f^l_0 \\ f^l_1)
+    \dd{x}\notag\\
+    =& \frac{1}{6h^l}\sum_{l=1}^N 
+    \mqty(g^l_0 & g^l_1) \mqty(2 & 1\\ 1&2)\mqty(f^l_0 \\ f^l_1),
 \end{align}
 となる。(\ref{eq:weak})は
 \begin{align}
     \sum_{l=1}^N \mqty(g^e_0 & g^e_1)\bigg[\frac{1}{h^l}\mqty(1 & -1 \\ -1 & 1)
-     + \frac{h^l}{12}\mqty(3v_{0}^l +v_{1}^l & v_{0}^l +v_{1}^l\\ v_{0}^l +v_{1}^l&v_{0} +3v_{1}^l)\bigg]\mqty(f^l_0 \\ f^l_1)=\lambda\sum_{l=1}^N \mqty(g^l_0 & g^l_1)\mqty(f^l_0 \\ f^l_1)
+     + \frac{h^l}{12}\mqty(3v_{0}^l +v_{1}^l & v_{0}^l +v_{1}^l\\ v_{0}^l +v_{1}^l&v_{0} +3v_{1}^l)\bigg]\mqty(f^l_0 \\ f^l_1)=\lambda\sum_{l=1}^N \frac{1}{6h^l} \mqty(g^l_0 & g^l_1)\mqty(2 & 1\\1& 2)\mqty(f^l_0 \\ f^l_1)
 \end{align}
 となる。 任意の$g$に対して上式が成り立つとき、
 \begin{align}
     \sum_{l=1}^N \bigg[\frac{1}{h^l}\mqty(1 & -1 \\ -1 & 1)
-     + \frac{h^l}{12}\mqty(3v_{0}^l +v_{1}^l & v_{0}^l +v_{1}^l\\ v_{0}^l +v_{1}^l&v_{0}^l +3v_{1}^l)\bigg]\mqty(f^l_0 \\ f^l_1)&=\lambda\sum_{l=1}^N \mqty(f^l_0 \\ f^l_1)
+     + \frac{h^l}{12}\mqty(3v_{0}^l +v_{1}^l & v_{0}^l +v_{1}^l\\ v_{0}^l +v_{1}^l&v_{0}^l +3v_{1}^l)\bigg]\mqty(f^l_0 \\ f^l_1)&=\lambda\sum_{l=1}^N\frac{1}{6h^l} \mqty(2 & 1\\1& 2)\mqty(f^l_0 \\ f^l_1)
 \end{align}     
-左辺第１項を$K$, 第２項を$V$、 固有関数の列を$u$とすると、
+左辺第１項の行列を$K$, 第２項の行列を$V$、右辺の行列を$M$、 固有関数の列を$u$とすると、
 \begin{align}
     K&=
      \frac{1}{h^l}\mqty(
@@ -120,7 +131,9 @@
      0 & 0 & 0 & \cdots & 2 & -1& 0 \\
      0 & 0 & 0 & \cdots & -1 & 2& -1 \\
      0 & 0 & 0 & \cdots & 0 & -1& 1 \\
-     ),\\
+     ),
+\end{align}
+\begin{align}
      V&= \frac{h^l}{12}\mqty(
         3v_{0} +v_{1} & v_{0} +v_{1} & 0 & \cdots & 0 & 0 & 0 \\
         v_{0} +v_{1} & 3v_{0} + 4v_{1} & v_{1} +v_{2} & \cdots & 0 & 0 & 0 \\
@@ -129,8 +142,61 @@
         0 & 0 & 0 & \cdots & 4v_{N-1} + 4v_{N} & v_{N-1} +v_{N}& 0 \\
         0 & 0 & 0 & \cdots & v_{N-1} +v_{N} & 4v_{N-1} + 3v_{N}& v_{N} +v_{N+1} \\
         0 & 0 & 0 & \cdots & 0 & v_{N-1} +v_{N}& 3v_{N} +v_{N+1} \\
-        ),\\
+        ),
+\end{align}
+\begin{align}
+    M&=
+     \frac{1}{6h^l}\mqty(
+     2 & 1 & 0 & \cdots & 0 & 0 & 0 \\
+     1 & 4 & 1 & \cdots & 0 & 0 & 0 \\
+     0 & 1 & 4 & \cdots & 0 & 0 & 0 \\
+     \vdots & \vdots & \vdots & \ddots & \vdots  & \vdots& \vdots\\
+     0 & 0 & 0 & \cdots & 4 & 1& 0 \\
+     0 & 0 & 0 & \cdots & 1 & 4& 1 \\
+     0 & 0 & 0 & \cdots & 0 & 1& 2 \\
+     ),
+\end{align}
+\begin{align}
     u&=\mqty(f_0 & f_1 & \cdots & f_N & f_{N+1})^T
 \end{align}
-となる。ただし、$f_N^0 = f_N,\, f_N^1 = f_{N+1}$（$v$についても同様)である。
+となる。ただし、$f_N^0 = f_N,\, f_N^1 = f_{N+1}$（$v$についても同様)である。これらから、
+\begin{align}
+    \qty(K + V) u = \lambda Mu 
+\end{align}
+となる。
+
+ディリクレ境界条件$f(0) = f_0 = \alpha$, $f(L) = f_{N+1} = \beta$を課すと
+\begin{align}
+    K&=
+     \frac{1}{h^l}\mqty(
+     -\alpha + 2 & -1 & \cdots & 0 & 0\\
+     -1 & 2 & \cdots & 0 & 0\\
+     \vdots & \vdots & \ddots & \vdots  & \vdots\\
+     0 & 0 & \cdots & 2 & -1 \\
+     0 & 0 & \cdots & -1 & 2 - \beta \\
+     ),
+\end{align}
+\begin{align}
+     V&= \frac{h^l}{12}\mqty(
+        \alpha\qty(v_{0} +v_{1}) + 3v_{0} + 4v_{1} & v_{1} +v_{2} & \cdots & 0 & 0\\
+        v_{1} +v_{2} & 4v_{1} + 4v_{2} & \cdots & 0 & 0\\
+        \vdots & \vdots & \ddots & \vdots  & \vdots\\
+        0 & 0 & \cdots & 4v_{N-1} + 4v_{N} & v_{N-1} +v_{N} \\
+        0 & 0 & \cdots & v_{N-1} +v_{N} & 4v_{N-1} + 3v_{N}+\beta\qty(v_{N} +v_{N+1}) \\
+        ),
+\end{align}
+\begin{align}
+    M&=
+     \frac{1}{6h^l}\mqty(
+     \alpha + 4 & 1 & \cdots & 0 & 0\\
+     1 & 4 & \cdots & 0 & 0\\
+     \vdots & \vdots & \ddots & \vdots  & \vdots\\
+     0 & 0 & \cdots & 4 & 1\\
+     0 & 0 & \cdots & 1 & 4+\beta \\
+     ),
+\end{align}
+\begin{align}
+    u&=\mqty(f_1 & \cdots & f_N)^T
+\end{align}
+となる。
 \end{document}

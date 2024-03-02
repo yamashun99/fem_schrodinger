@@ -2,23 +2,24 @@ import numpy as np
 
 
 class Fem1dEigen:
-    """１次元固有値問題 (K + V)u = λu を解く"""
+    """１次元固有値問題 (d^2/d^2x + V)u = λu を解く"""
 
-    def __init__(self, n, a, b, k, v):
+    def __init__(self, v):
         # Parameters for K matrix
-        hl = 1  # Example value for h^l
-        size = len(v)  # Using the same size as the previous matrix for consistency
+        self.hl = 1  # Example value for h^l
+        self.size = len(v)  # Using the same size as the previous matrix for consistency
 
+    def get_K(self):
         # Initialize the K matrix with zeros
-        K = np.zeros((size, size))
+        K = np.zeros((self.size, self.size))
 
         # Populate the K matrix
-        for i in range(size):
+        for i in range(self.size):
             if i == 0:
                 K[i, i] = 1
-                if size > 1:  # To handle the case when size is 1
+                if self.size > 1:  # To handle the case when size is 1
                     K[i, i + 1] = -1
-            elif i == size - 1:
+            elif i == self.size - 1:
                 K[i, i - 1] = -1
                 K[i, i] = 1
             else:
@@ -27,6 +28,25 @@ class Fem1dEigen:
                 K[i, i + 1] = -1
 
         # Apply the scale factor
-        K *= 1 / hl
+        K *= 1 / self.hl
+        return K
 
-        K
+    def get_M(self):
+        M = np.zeros((self.size, self.size))
+
+        for i in range(self.size):
+            if i == 0:
+                M[i, i] = 2
+                if self.size > 1:  # To handle the case when size is 1
+                    M[i, i + 1] = 1
+            elif i == self.size - 1:
+                M[i, i - 1] = 1
+                M[i, i] = 2
+            else:
+                M[i, i - 1] = 1
+                M[i, i] = 4
+                M[i, i + 1] = 1
+
+        # Apply the scale factor
+        M *= 1 / self.hl
+        return M
