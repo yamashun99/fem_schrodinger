@@ -107,53 +107,61 @@
     =& \sum_{l=1}^N \frac{1}{{h^l}^2}\int_{x^l_0}^{x^l_1}
     \mqty(g^l_0 & g^l_1) \mqty(x^l_1 - x \\ x-x^l_0)\mqty(x^l_1 - x & x-x^l_0)\mqty(f^l_0 \\ f^l_1)
     \dd{x}\notag\\
-    =& \frac{1}{6h^l}\sum_{l=1}^N 
+    =& \frac{h^l}{6}\sum_{l=1}^N 
     \mqty(g^l_0 & g^l_1) \mqty(2 & 1\\ 1&2)\mqty(f^l_0 \\ f^l_1),
 \end{align}
 となる。(\ref{eq:weak})は
 \begin{align}
     \sum_{l=1}^N \mqty(g^e_0 & g^e_1)\bigg[\frac{1}{h^l}\mqty(1 & -1 \\ -1 & 1)
-     + \frac{h^l}{12}\mqty(3v_{0}^l +v_{1}^l & v_{0}^l +v_{1}^l\\ v_{0}^l +v_{1}^l&v_{0} +3v_{1}^l)\bigg]\mqty(f^l_0 \\ f^l_1)=\lambda\sum_{l=1}^N \frac{1}{6h^l} \mqty(g^l_0 & g^l_1)\mqty(2 & 1\\1& 2)\mqty(f^l_0 \\ f^l_1)
+     + \frac{h^l}{12}\mqty(3v_{0}^l +v_{1}^l & v_{0}^l +v_{1}^l\\ v_{0}^l +v_{1}^l&v_{0} +3v_{1}^l)\bigg]\mqty(f^l_0 \\ f^l_1)=\lambda\sum_{l=1}^N \frac{h^l}{6} \mqty(g^l_0 & g^l_1)\mqty(2 & 1\\1& 2)\mqty(f^l_0 \\ f^l_1)
 \end{align}
 となる。 任意の$g$に対して上式が成り立つとき、
 \begin{align}
     \sum_{l=1}^N \bigg[\frac{1}{h^l}\mqty(1 & -1 \\ -1 & 1)
-     + \frac{h^l}{12}\mqty(3v_{0}^l +v_{1}^l & v_{0}^l +v_{1}^l\\ v_{0}^l +v_{1}^l&v_{0}^l +3v_{1}^l)\bigg]\mqty(f^l_0 \\ f^l_1)&=\lambda\sum_{l=1}^N\frac{1}{6h^l} \mqty(2 & 1\\1& 2)\mqty(f^l_0 \\ f^l_1)
+     + \frac{h^l}{12}\mqty(3v_{0}^l +v_{1}^l & v_{0}^l +v_{1}^l\\ v_{0}^l +v_{1}^l&v_{0}^l +3v_{1}^l)\bigg]\mqty(f^l_0 \\ f^l_1)&=\lambda\sum_{l=1}^N\frac{h^l}{6} \mqty(2 & 1\\1& 2)\mqty(f^l_0 \\ f^l_1)
 \end{align}     
 左辺第１項の行列を$K$, 第２項の行列を$V$、右辺の行列を$M$、 固有関数の列を$u$とすると、
 \begin{align}
     K&=
-     \frac{1}{h^l}\mqty(
-     1 & -1 & 0 & \cdots & 0 & 0 & 0 \\
-     -1 & 2 & -1 & \cdots & 0 & 0 & 0 \\
-     0 & -1 & 2 & \cdots & 0 & 0 & 0 \\
+     \mqty(
+     \frac{1}{h_0} & -\frac{1}{h_0} & 0 & \cdots & 0 & 0 & 0 \\
+     -\frac{1}{h_0} & \frac{1}{h_0} + \frac{1}{h_1} & -\frac{1}{h_1} & \cdots & 0 & 0 & 0 \\
+     0 & -\frac{1}{h_1} & \frac{1}{h_1} + \frac{1}{h_2} & \cdots & 0 & 0 & 0 \\
      \vdots & \vdots & \vdots & \ddots & \vdots  & \vdots& \vdots\\
-     0 & 0 & 0 & \cdots & 2 & -1& 0 \\
-     0 & 0 & 0 & \cdots & -1 & 2& -1 \\
-     0 & 0 & 0 & \cdots & 0 & -1& 1 \\
+     0 & 0 & 0 & \cdots & \frac{1}{h_{N-2}} + \frac{1}{h_{N-1}} & -\frac{1}{h_{N-1}} & 0 \\
+     0 & 0 & 0 & \cdots & -\frac{1}{h_{N-1}} &\frac{1}{h_{N-1}} + \frac{1}{h_N} & -\frac{1}{h_N} \\
+     0 & 0 & 0 & \cdots & 0 & -\frac{1}{h_N}& \frac{1}{h_N} \\
      ),
 \end{align}
 \begin{align}
-     V&= \frac{h^l}{12}\mqty(
-        3v_{0} +v_{1} & v_{0} +v_{1} & 0 & \cdots & 0 & 0 & 0 \\
-        v_{0} +v_{1} & 3v_{0} + 4v_{1} & v_{1} +v_{2} & \cdots & 0 & 0 & 0 \\
-        0 & v_{1} +v_{2} & 4v_{1} + 4v_{2} & \cdots & 0 & 0 & 0 \\
-        \vdots & \vdots & \vdots & \ddots & \vdots  & \vdots& \vdots\\
-        0 & 0 & 0 & \cdots & 4v_{N-1} + 4v_{N} & v_{N-1} +v_{N}& 0 \\
-        0 & 0 & 0 & \cdots & v_{N-1} +v_{N} & 4v_{N-1} + 3v_{N}& v_{N} +v_{N+1} \\
-        0 & 0 & 0 & \cdots & 0 & v_{N-1} +v_{N}& 3v_{N} +v_{N+1} \\
-        ),
+     V&= \frac{1}{12}\left(\mqty{
+        \qty(3v_{0} +v_{1})h_0 & \qty(v_{0} +v_{1})h_0 & 0 & \cdots \\
+        \qty(v_{0} +v_{1})h_0 & \qty(v_{0} + 3v_{1})h_0 + \qty(3v_{1} +v_{2})h_1 & \qty(v_{1} +v_{2})h_1 & \cdots\\
+        0 & \qty(v_{1} +v_{2})h_1 & \qty(v_{1} + 3v_{2})h_1 + \qty(3v_{2} + v_{3})h_2 & \cdots\\
+        \vdots & \vdots & \vdots & \ddots\\
+        0 & 0 & 0 & \cdots\\
+        0 & 0 & 0 & \cdots\\
+        }\right.\notag\\
+     &  \left.\mqty{
+        \cdots  & 0 & 0 & 0 \\
+        \cdots & 0 & 0 & 0 \\
+        \cdots& 0 & 0 & 0 \\
+        \ddots  & \vdots& \vdots& \vdots\\
+        \cdots & h_{N-2}\qty(v_{N-2} + 3v_{N-1}) + h_{N-1}\qty(3v_{N-1} + v_{N})& h_{N-1}\qty(v_{N - 1} +v_{N})& 0 \\
+        \cdots & h_{N-1}\qty(v_{N - 1} +v_{N})& h_{N-1}\qty(v_{N-1} + 3v_{N}) + h_N\qty(3v_{N} + v_{N +1})& h_N\qty(v_{N} +v_{N+1}) \\
+        \cdots &0 & h_N\qty(v_{N-1} +v_{N})& h_N\qty(v_{N} +3v_{N+1}) \\
+        }\right),
 \end{align}
 \begin{align}
     M&=
-     \frac{1}{6h^l}\mqty(
-     2 & 1 & 0 & \cdots & 0 & 0 & 0 \\
-     1 & 4 & 1 & \cdots & 0 & 0 & 0 \\
-     0 & 1 & 4 & \cdots & 0 & 0 & 0 \\
+     \frac{1}{6}\mqty(
+     2h_0 & h_0 & 0 & \cdots & 0 & 0 & 0 \\
+     h_0 & 2h_0 + 2h_1 & h_1 & \cdots & 0 & 0 & 0 \\
+     0 & h_1 & 2h_1 + 2h_2 & \cdots & 0 & 0 & 0 \\
      \vdots & \vdots & \vdots & \ddots & \vdots  & \vdots& \vdots\\
-     0 & 0 & 0 & \cdots & 4 & 1& 0 \\
-     0 & 0 & 0 & \cdots & 1 & 4& 1 \\
-     0 & 0 & 0 & \cdots & 0 & 1& 2 \\
+     0 & 0 & 0 & \cdots & 2h_{N - 2} + 2h_{N - 1} & h_{N-1}& 0 \\
+     0 & 0 & 0 & \cdots & h_{N-1} & 2h_{N - 1} + 2h_{N}& h_{N} \\
+     0 & 0 & 0 & \cdots & 0 & h_{N}& 2h_{N} \\
      ),
 \end{align}
 \begin{align}
@@ -168,31 +176,39 @@
 ディリクレ境界条件$f(0) = f_0 = \alpha$, $f(L) = f_{N+1} = \beta$を課すと
 \begin{align}
     K&=
-     \frac{1}{h^l}\mqty(
-     -\alpha + 2 & -1 & \cdots & 0 & 0\\
-     -1 & 2 & \cdots & 0 & 0\\
-     \vdots & \vdots & \ddots & \vdots  & \vdots\\
-     0 & 0 & \cdots & 2 & -1 \\
-     0 & 0 & \cdots & -1 & 2 - \beta \\
+     \mqty(
+     -\frac{\alpha}{h_0} + \frac{1}{h_0} + \frac{1}{h_1} & -\frac{1}{h_1} & \cdots & 0 & 0\\
+     -\frac{1}{h_1} & \frac{1}{h_1} + \frac{1}{h_2} & \cdots & 0 & 0\\
+     \vdots & \vdots & \vdots & \ddots & \vdots\\
+     0 & 0 & \cdots & \frac{1}{h_{N-2}} + \frac{1}{h_{N-1}} & -\frac{1}{h_{N-1}} \\
+     0 & 0 & \cdots & -\frac{1}{h_{N-1}} &\frac{1}{h_{N-1}} + \frac{1}{h_N} -\frac{\beta}{h_N} \\
      ),
 \end{align}
 \begin{align}
-     V&= \frac{h^l}{12}\mqty(
-        \alpha\qty(v_{0} +v_{1}) + 3v_{0} + 4v_{1} & v_{1} +v_{2} & \cdots & 0 & 0\\
-        v_{1} +v_{2} & 4v_{1} + 4v_{2} & \cdots & 0 & 0\\
-        \vdots & \vdots & \ddots & \vdots  & \vdots\\
-        0 & 0 & \cdots & 4v_{N-1} + 4v_{N} & v_{N-1} +v_{N} \\
-        0 & 0 & \cdots & v_{N-1} +v_{N} & 4v_{N-1} + 3v_{N}+\beta\qty(v_{N} +v_{N+1}) \\
-        ),
+     V&= \frac{1}{12}\left(\mqty{
+        \qty(v_{0} +v_{1})h_0 \alpha+ \qty(v_{0} + 3v_{1})h_0 + \qty(3v_{1} +v_{2})h_1 & \qty(v_{1} +v_{2})h_1 & \cdots\\
+        \qty(v_{1} +v_{2})h_1 & \qty(v_{1} + 3v_{2})h_1 + \qty(3v_{2} + v_{3})h_2 & \cdots\\
+        \vdots & \vdots & \ddots\\
+        0 & 0 & \cdots\\
+        0 & 0 & \cdots\\
+        }\right.\notag\\
+     &  \left.\mqty{
+        \cdots  & 0 & 0\\
+        \cdots & 0 & 0\\
+        \cdots& 0 & 0\\
+        \ddots  & \vdots& \vdots\\
+        \cdots & h_{N-2}\qty(v_{N-2} + 3v_{N-1}) + h_{N-1}\qty(3v_{N-1} + v_{N})& h_{N-1}\qty(v_{N - 1} +v_{N})\\
+        \cdots & h_{N-1}\qty(v_{N - 1} +v_{N})& h_{N-1}\qty(v_{N-1} + 3v_{N}) + h_N\qty(3v_{N} + v_{N +1})+ \beta h_N\qty(v_{N} +v_{N+1}) \\
+        }\right),
 \end{align}
 \begin{align}
     M&=
-     \frac{1}{6h^l}\mqty(
-     \alpha + 4 & 1 & \cdots & 0 & 0\\
-     1 & 4 & \cdots & 0 & 0\\
+     \frac{1}{6}\mqty(
+     \alpha h_0 + 2h_0 + 2h_1 & h_1 & \cdots & 0 & 0\\
+     h_1 & 2h_1 + 2h_2 & \cdots & 0 & 0\\
      \vdots & \vdots & \ddots & \vdots  & \vdots\\
-     0 & 0 & \cdots & 4 & 1\\
-     0 & 0 & \cdots & 1 & 4+\beta \\
+     0 & 0 & \cdots & 2h_{N - 1} + 2h_{N} & h_N\\
+     0 & 0 & \cdots & h_N & 2h_{N} + 2h_{N+1}+\beta h_{N+1} \\
      ),
 \end{align}
 \begin{align}
