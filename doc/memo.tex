@@ -16,84 +16,121 @@
 
 \maketitle
 
-\section{水素原子のシュレーディンガー方程式}
-\subsection{動経成分波動関数}
-水素原子のハミルトニアンは
+\section{水素原子}
+\subsection{シュレーディンガー方程式}
+水素原子のシュレーディンガー方程式は
 \begin{align}
-    i\hbar\frac{\partial}{\partial t}\psi(\bm{r},t) = -\frac{\hbar^2}{2m}\nabla^2\psi(\bm{r},t) -\frac{e^2}{r}\psi(\bm{r},t)
+    \qty(-\frac{\hbar^2}{2\mu}\nabla^2 -\frac{e^2}{4\pi\epsilon_0 r})\psi = E\psi
 \end{align}
-である。ここで、$\psi(\bm{r},t)$は波動関数、$\hbar$はディラック定数、$m$は電子の質量、$e$は電気素量、$\bm{r}$は位置ベクトル、$t$は時間である。
-エネルギー$E$の固有関数$\psi(\bm{r})$は
+である。無次元量$R, E_0$により、
 \begin{align}
-    -\frac{\hbar^2}{2m}\nabla^2\psi(\bm{r}) -\frac{e^2}{r}\psi(\bm{r}) = E\psi(\bm{r})
+    r = R\tilde{r},\quad E = E_0\varepsilon
 \end{align}
-動経成分は
+と変換すると、
 \begin{align}
-    -\frac{\hbar^2}{2m}\qty(\frac{1}{r^2}\dv{r}r^2\dv{r} - \frac{l(l+1)}{r})R(r)
-     - \frac{e^2}{r}R(r) = ER(r)
+    \qty(-\frac{1}{2}\tilde\nabla^2 - \frac{\mu R e^2}{\hbar^2 4\pi\epsilon_0}\frac{1}{\tilde r})\psi = \frac{\mu E_0R^2}{\hbar^2}\varepsilon\psi
+\end{align}
+となる。ここで、
+\begin{align}
+    R = \frac{\hbar^2 4\pi\epsilon_0}{\mu e^2}, \quad E_0 = \frac{\hbar^2}{\mu R^2}
+\end{align}
+とすれば、
+\begin{align}
+    \qty(-\frac{1}{2}\tilde\nabla^2 - \frac{1}{\tilde r})\psi = \varepsilon\psi\label{eq:dimless}
+\end{align}
+となる。$R$はボーア半径である。
+
+(\ref{eq:dimless})の動経成分は
+\begin{align}
+    \qty[-\frac{1}{2}\qty(\frac{1}{r^2}\dv{r}r^2\dv{r} - \frac{l(l+1)}{r^2})
+     - \frac{1}{r}]\psi = \varepsilon\psi
 \end{align}
 となる。$\chi = rR$を導入すると、
 \begin{align}
-    -\frac{\hbar^2}{2m}\qty(\dv[2]{r} - \frac{l(l+1)}{r^2})\chi - \frac{e^2}{r}\chi = E\chi
+    -\frac{1}{2}\qty(\dv[2]{r} - \frac{l(l+1)}{r^2})\chi - \frac{1}{r}\chi = \varepsilon\chi
 \end{align}
-となる。
+となる。 
 
 \subsection{弱形式}
-固有値方程式
+次の固有方程式
 \begin{align}
-    \dv[2]{x}f + \frac{a}{x^2}f + \frac{b}{x}f = \lambda f 
+    \qty(\dv[2]{x} + v(x))f = \lambda f\label{eq:eigen}
 \end{align}
-に対して、弱形式を求める。$f$に対してテスト関数$g$を掛けて積分すると、
+の弱解を求める。$f$に対してテスト関数$g$を掛けて積分すると、
 \begin{align}
-    \int_0^Lg\qty(\dv[2]{x}f + \frac{a}{x^2}f + \frac{b}{x}f)\dd{x} &= \lambda\int_0^Lgf\dd{x}\notag\\
-    \qty[g\dv{f}{x}]_0^L+\int_0^L\qty(\dv{g}{x}\dv{f}{x} + \frac{a}{x^2}gf + \frac{b}{x}gf)\dd{x}
+    \int_0^Lg\qty(\dv[2]{x} + v)f\dd{x} &= \lambda\int_0^Lgf\dd{x}\notag\\
+    \qty[g\dv{f}{x}]_0^L+\int_0^L\qty(\dv{g}{x}\dv{f}{x} + gvf)\dd{x}
      &= \lambda\int_0^Lgf\dd{x}
 \end{align}
 境界条件$\dv{f}{x}|_{x=0} = \dv{f}{x}|_{x=L} = 0$を課すと、
 \begin{align}
-    \int_0^L\qty(\dv{g}{x}\dv{f}{x} + \frac{a}{x^2}gf + \frac{b}{x}gf)\dd{x}
+    \int_0^L\qty(\dv{g}{x}\dv{f}{x} + gvf)\dd{x}
      &= \lambda\int_0^Lgf\dd{x}\label{eq:weak}
 \end{align}
-となる。
+となる。  任意の$g$に対して(\ref{eq:weak})が成り立つとき、$f$は(\ref{eq:eigen})の弱解である。
 \subsection{有限要素法}
-(\ref{eq:weak})の被積分関数は、$\dv{g}{x}\dv{f}{x}$と$h(x)g(x)f(x)$からなる。
-区間$\qty[0,L]$を$N$等分する。$e$番目の区間を$[x^e_0,x^e_1]$とし、$g_{0(1)} = g(x=x^e_{0(1)})$, $f_{0(1)} = f(x=x^e_{0(1)})$, $l^e = x^e_1 - x^e_0$とすると、
+%(\ref{eq:weak})の被積分関数は、$\dv{g}{x}\dv{f}{x}$と$h(x)g(x)f(x)$からなる。
+区間$\qty[0,L]$を$N$等分する。$l$番目の区間を$[x^l_0,x^l_1]$とし、$g_{0(1)} = g(x=x^l_{0(1)})$, $f_{0(1)} = f(x=x^l_{0(1)})$, $h^l = x^l_1 - x^l_0$とすると、
 \begin{align}
-    g(x) &= \frac{x^e_1 - x}{l^e}g_0 + \frac{x-x^e_0}{l^e}g_1,\\
-    f(x) &= \frac{x^e_1 - x}{l^e}f_0 + \frac{x-x^e_0}{l^e}f_1,\\
-    h(x) &= \frac{x^e_1 - x}{l^e}h_0 + \frac{x-x^e_0}{l^e}h_1
+    g(x) &= \frac{x^l_1 - x}{h^l}g_0 + \frac{x-x^l_0}{h^l}g_1,\\
+    f(x) &= \frac{x^l_1 - x}{h^l}f_0 + \frac{x-x^l_0}{h^l}f_1,\\
+    v(x) &= \frac{x^l_1 - x}{h^l}v_0 + \frac{x-x^l_0}{h^l}v_1
 \end{align}
 となる。これらにより、
 \begin{align}
     \int_0^L \dv{g}{x}\dv{f}{x}\dd{x} 
-    &= \sum_{e=1}^N \frac{1}{l^e_2}\int_{0_x^e}^{x^e_1}\qty(-g^e_0 + g^e_1)\qty(-f^e_0 + f^e_1)\dd{x}\notag\\
-    &= \sum_{e=1}^N \frac{1}{l^e_2}\int_{x^e_0}^{x^e_1}\mqty(g^e_0 && g^e_1)\mqty(-1\\1)\mqty(-1 && 1)\mqty(f^e_0 \\ f^e_1)\dd{x}\notag\\
-    &= \sum_{e=1}^N \frac{1}{l^e_2}\int_{x^e_0}^{x^e_1}\mqty(g^e_0 && g^e_1)\mqty(1 && -1 \\ -1 && 1)\mqty(f^e_0 \\ f^e_1)\dd{x}\notag\\
-    &= \sum_{e=1}^N \frac{1}{l^e}\mqty(g^e_0 && g^e_1)\mqty(1 && -1 \\ -1 && 1)\mqty(f^e_0 \\ f^e_1),
+    &= \sum_{l=1}^N \frac{1}{{h^l}^2}\int_{x_l^e}^{x^l_1}\qty(-g^l_0 + g^l_1)\qty(-f^l_0 + f^l_1)\dd{x}\notag\\
+    &= \sum_{l=1}^N \frac{1}{{h^l}^2}\int_{x^l_0}^{x^l_1}\mqty(g^l_0 & g^l_1)\mqty(-1\\1)\mqty(-1 & 1)\mqty(f^l_0 \\ f^l_1)\dd{x}\notag\\
+    &= \sum_{l=1}^N \frac{1}{{h^l}^2}\int_{x^l_0}^{x^l_1}\mqty(g^l_0 & g^l_1)\mqty(1 & -1 \\ -1 & 1)\mqty(f^l_0 \\ f^l_1)\dd{x}\notag\\
+    &= \sum_{l=1}^N \frac{1}{h^l}\mqty(g^l_0 & g^l_1)\mqty(1 & -1 \\ -1 & 1)\mqty(f^l_0 \\ f^l_1),
 \end{align}
 \begin{align}
-    \int_0^L hgf\dd{x}
-    =& \sum_{e=1}^N \frac{1}{l^e_3}\int_{x^e_0}^{x^e_1}
-    \qty(\qty(x^e_1 - x)h^e_0 + \qty(x-x^e_0)h^e_1)
-    \qty(\qty(x^e_1 - x)g^e_0 + \qty(x-x^e_0)g^e_1)\notag\\
-    &\times\qty(\qty(x^e_1 - x)f^e_0 + \qty(x-x^e_0)f^e_1)
+    \int_0^L vgf\dd{x}
+    =& \sum_{l=1}^N \frac{1}{{h^l}^3}\int_{x^l_0}^{x^l_1}
+    \qty(\qty(x^l_1 - x)v^l_0 + \qty(x-x^l_0)v^l_1)
+    \qty(\qty(x^l_1 - x)g^l_0 + \qty(x-x^l_0)g^l_1)\notag\\
+    &\times\qty(\qty(x^l_1 - x)f^l_0 + \qty(x-x^l_0)f^l_1)
     \dd{x}\notag\\
-    =& \sum_{e=1}^N \frac{1}{l^e_3}\int_{x^e_0}^{x^e_1}
-    \mqty(g^e_0 && g^e_1) \mqty(x^e_1 - x \\ x-x^e_0)
-    \qty(\qty(x^e_1 - x)h^e_0 + \qty(x-x^e_0)h^e_1)\notag\\
-    &\times\mqty(x^e_1 - x && x-x^e_0)\mqty(f^e_0 \\ f^e_1)
+    =& \sum_{l=1}^N \frac{1}{{h^l}^3}\int_{x^l_0}^{x^l_1}
+    \mqty(g^l_0 & g^l_1) \mqty(x^l_1 - x \\ x-x^l_0)
+    \qty(\qty(x^l_1 - x)v^l_0 + \qty(x-x^l_0)v^l_1)\notag\\
+    &\times\mqty(x^l_1 - x & x-x^l_0)\mqty(f^l_0 \\ f^l_1)
     \dd{x}\notag\\
-    =& \frac{1}{12}\sum_{e=1}^N l^e
-    \mqty(g^e_0 && g^e_1) \mqty(3h^0 +h^1 && h^0 +h^1\\ h^0 +h^1&&h^0 +3h^1)\mqty(f^e_0 \\ f^e_1)
+    =& \frac{1}{12}\sum_{l=1}^N h^l
+    \mqty(g^l_0 & g^l_1) \mqty(3v_0^l +v_1^l & v_0^l +v_1^l\\ v_0^l +v_1^l&v_0^l +3v_1^l)\mqty(f^l_0 \\ f^l_1)
 \end{align}
-となる。
+となる。(\ref{eq:weak})は
 \begin{align}
-    V_\mathrm{cf} = \frac{a}{x^2},\quad V_\mathrm{c} = \frac{b}{x}
+    \sum_{l=1}^N \mqty(g^e_0 & g^e_1)\bigg[\frac{1}{h^l}\mqty(1 & -1 \\ -1 & 1)
+     + \frac{h^l}{12}\mqty(3v_{0}^l +v_{1}^l & v_{0}^l +v_{1}^l\\ v_{0}^l +v_{1}^l&v_{0} +3v_{1}^l)\bigg]\mqty(f^l_0 \\ f^l_1)=\lambda\sum_{l=1}^N \mqty(g^l_0 & g^l_1)\mqty(f^l_0 \\ f^l_1)
 \end{align}
-と定義すると、(\ref{eq:weak})は
-\begin{multline}
-    \sum_{e=1}^N \mqty(g^e_0 && g^e_1)\bigg[\frac{1}{l^e}\mqty(1 && -1 \\ -1 && 1)
-     + \frac{l^e}{12}\mqty(3V_{\mathrm{cf}\,0} +V_{\mathrm{cf}\, 1} && V_{\mathrm{cf}\, 0} +V_{\mathrm{cf}\, 1}\\ V_{\mathrm{cf}\, 0} +V_{\mathrm{cf}\, 1}&&V_{\mathrm{cf}\, 0} +3V_{\mathrm{cf}\, 1})\\
-     + \frac{l^e}{12}\mqty(3V_{\mathrm{c}\,0} +V_{\mathrm{c}\, 1} && V_{\mathrm{c}\, 0} +V_{\mathrm{c}\, 1}\\ V_{\mathrm{c}\, 0} +V_{\mathrm{c}\, 1}&&V_{\mathrm{c}\, 0} +3V_{\mathrm{c}\, 1})\bigg]\mqty(f^e_0 \\ f^e_1)=\lambda\sum_{e=1}^N \mqty(g^e_0 && g^e_1)\mqty(f^e_0 \\ f^e_1)
-\end{multline}
+となる。 任意の$g$に対して上式が成り立つとき、
+\begin{align}
+    \sum_{l=1}^N \bigg[\frac{1}{h^l}\mqty(1 & -1 \\ -1 & 1)
+     + \frac{h^l}{12}\mqty(3v_{0}^l +v_{1}^l & v_{0}^l +v_{1}^l\\ v_{0}^l +v_{1}^l&v_{0}^l +3v_{1}^l)\bigg]\mqty(f^l_0 \\ f^l_1)&=\lambda\sum_{l=1}^N \mqty(f^l_0 \\ f^l_1)
+\end{align}     
+左辺第１項を$K$, 第２項を$V$、 固有関数の列を$u$とすると、
+\begin{align}
+    K&=
+     \frac{1}{h^l}\mqty(
+     1 & -1 & 0 & \cdots & 0 & 0 & 0 \\
+     -1 & 2 & -1 & \cdots & 0 & 0 & 0 \\
+     0 & -1 & 2 & \cdots & 0 & 0 & 0 \\
+     \vdots & \vdots & \vdots & \ddots & \vdots  & \vdots& \vdots\\
+     0 & 0 & 0 & \cdots & 2 & -1& 0 \\
+     0 & 0 & 0 & \cdots & -1 & 2& -1 \\
+     0 & 0 & 0 & \cdots & 0 & -1& 1 \\
+     ),\\
+     V&= \frac{h^l}{12}\mqty(
+        3v_{0} +v_{1} & v_{0} +v_{1} & 0 & \cdots & 0 & 0 & 0 \\
+        v_{0} +v_{1} & 3v_{0} + 4v_{1} & v_{1} +v_{2} & \cdots & 0 & 0 & 0 \\
+        0 & v_{1} +v_{2} & 4v_{1} + 4v_{2} & \cdots & 0 & 0 & 0 \\
+        \vdots & \vdots & \vdots & \ddots & \vdots  & \vdots& \vdots\\
+        0 & 0 & 0 & \cdots & 4v_{N-1} + 4v_{N} & v_{N-1} +v_{N}& 0 \\
+        0 & 0 & 0 & \cdots & v_{N-1} +v_{N} & 4v_{N-1} + 3v_{N}& v_{N} +v_{N+1} \\
+        0 & 0 & 0 & \cdots & 0 & v_{N-1} +v_{N}& 3v_{N} +v_{N+1} \\
+        ),\\
+    u&=\mqty(f_0 & f_1 & \cdots & f_N & f_{N+1})^T
+\end{align}
+となる。ただし、$f_N^0 = f_N,\, f_N^1 = f_{N+1}$（$v$についても同様)である。
 \end{document}
