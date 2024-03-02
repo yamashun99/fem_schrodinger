@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.141592653-2.6-0.999993 (TeX Live 2022/dev/Debian) (preloaded format=xelatex 2023.5.31)  28 FEB 2024 22:56
+This is XeTeX, Version 3.141592653-2.6-0.999993 (TeX Live 2022/dev/Debian) (preloaded format=xelatex 2023.5.31)  2 MAR 2024 09:31
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -474,10 +474,10 @@ LaTeX Font Info:    Font shape `TU/NotoSansCJKjp-Light(0)/m/n' will be
 
 ] [2] (./memo.aux) ) 
 Here is how much of TeX's memory you used:
- 7827 strings out of 476191
- 194632 string characters out of 5812072
- 567287 words of memory out of 5000000
- 28454 multiletter control sequences out of 15000+600000
+ 7828 strings out of 476191
+ 194641 string characters out of 5812072
+ 570288 words of memory out of 5000000
+ 28455 multiletter control sequences out of 15000+600000
  479495 words of font info for 98 fonts, out of 8000000 for 9000
  1353 hyphenation exceptions out of 8191
  105i,16n,112p,496b,325s stack positions out of 5000i,500n,10000p,200000b,80000s
