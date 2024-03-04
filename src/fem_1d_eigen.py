@@ -10,50 +10,45 @@ class Fem1dEigen:
         self.dirichlet_bc = dirichlet_bc
         self.xs = xs
         self.xs_next = np.roll(xs, -1)  # 次の座標点
-        self.element_lengths = self.xs_next - xs  # 要素の長さ
-        self.element_lengths = self.element_lengths[:-1]
-        self.hl = 1 / 100
+        self.hs = self.xs_next - xs  # 要素の長さ
+        self.hs = self.hs[:-1]
         self.v = v
 
     def get_K(self):
         # Initialize the K matrix with zeros
-        K = np.zeros((self.size - 1, self.size - 1))
+        K = np.zeros((self.size, self.size))
 
         # Populate the K matrix
-        for i in range(self.size - 1):
+        for i in range(self.size):
             if i == 0:
-                K[i, i] = 2 - self.dirichlet_bc[0]
-                if self.size > 1:  # To handle the case when size is 1
-                    K[i, i + 1] = -1
+                K[i, i] = 1
+            elif i == 1:
+                K[i, i] = 1 / self.hs[i - 1] + 1 / self.hs[i]
+                K[i, i + 1] = -1 / self.hs[i]
             elif i == self.size - 2:
-                K[i, i - 1] = -1
-                K[i, i] = 2 - self.dirichlet_bc[1]
+                K[i, i - 1] = -1 / self.hs[i - 1]
+                K[i, i] = 1 / self.hs[i - 1] + 1 / self.hs[i]
+            elif i == self.size - 1:
+                K[i, i] = 1
             else:
-                K[i, i - 1] = -1
-                K[i, i] = 2
-                K[i, i + 1] = -1
-
-        # Apply the scale factor
-        K *= 1 / self.hl
+                K[i, i - 1] = -1 / self.hs[i - 1]
+                K[i, i] = 1 / self.hs[i - 1] + 1 / self.hs[i]
+                K[i, i + 1] = -1 / self.hs[i]
         return K
 
     def get_M(self):
-        M = np.zeros((self.size - 1, self.size - 1))
+        M = np.zeros((self.size, self.size))
 
-        for i in range(self.size - 1):
+        for i in range(self.size):
             if i == 0:
-                M[i, i] = 4 + self.dirichlet_bc[0]
-                if self.size > 1:  # To handle the case when size is 1
-                    M[i, i + 1] = 1
-            elif i == self.size - 2:
-                M[i, i - 1] = 1
-                M[i, i] = 4 + self.dirichlet_bc[1]
+                M[i, i] = 2 * self.hs[i]
+                M[i, i + 1] = self.hs[i]
+            elif i == self.size - 1:
+                M[i, i - 1] = self.hs[i - 1]
+                M[i, i] = 2 * self.hs[i - 1]
             else:
-                M[i, i - 1] = 1
-                M[i, i] = 4
-                M[i, i + 1] = 1
+                M[i, i - 1] = self.hs[i - 1]
+                M[i, i] = 2 * self.hs[i - 1] + 2 * self.hs[i]
+                M[i, i + 1] = self.hs[i]
 
-        # Apply the scale factor
-        M *= self.hl / 6
-    
-    def get_V(self):
+        return M / 6

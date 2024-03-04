@@ -5,6 +5,7 @@
 \usepackage{physics}
 \usepackage{bm}
 \usepackage[colorlinks=true, linkcolor=black, citecolor=black, urlcolor=blue]{hyperref}
+\usepackage{graphicx}
 
 
 
@@ -59,12 +60,12 @@
 の弱解を求める。$f$に対してテスト関数$g$を掛けて積分すると、
 \begin{align}
     \int_0^Lg\qty(\dv[2]{x} + v)f\dd{x} &= \lambda\int_0^Lgf\dd{x}\notag\\
-    \qty[g\dv{f}{x}]_0^L+\int_0^L\qty(\dv{g}{x}\dv{f}{x} + gvf)\dd{x}
+    \qty[g\dv{f}{x}]_0^L+\int_0^L\qty(-\dv{g}{x}\dv{f}{x} + gvf)\dd{x}
      &= \lambda\int_0^Lgf\dd{x}
 \end{align}
-境界条件$\dv{f}{x}|_{x=0} = \dv{f}{x}|_{x=L} = 0$を課すと、
+境界条件$f(0) = f(L) = 0$のとき、$g(0) = g(L) = 0$としてよく、
 \begin{align}
-    \int_0^L\qty(\dv{g}{x}\dv{f}{x} + gvf)\dd{x}
+    \int_0^L\qty(-\dv{g}{x}\dv{f}{x} + gvf)\dd{x}
      &= \lambda\int_0^Lgf\dd{x}\label{eq:weak}
 \end{align}
 となる。  任意の$g$に対して(\ref{eq:weak})が成り立つとき、$f$は(\ref{eq:eigen})の弱解である。
@@ -177,16 +178,16 @@
 \begin{align}
     K&=
      \mqty(
-     -\frac{\alpha}{h_0} + \frac{1}{h_0} + \frac{1}{h_1} & -\frac{1}{h_1} & \cdots & 0 & 0\\
+     \frac{1}{h_0} + \frac{1}{h_1} & -\frac{1}{h_1} & \cdots & 0 & 0\\
      -\frac{1}{h_1} & \frac{1}{h_1} + \frac{1}{h_2} & \cdots & 0 & 0\\
      \vdots & \vdots & \vdots & \ddots & \vdots\\
      0 & 0 & \cdots & \frac{1}{h_{N-2}} + \frac{1}{h_{N-1}} & -\frac{1}{h_{N-1}} \\
-     0 & 0 & \cdots & -\frac{1}{h_{N-1}} &\frac{1}{h_{N-1}} + \frac{1}{h_N} -\frac{\beta}{h_N} \\
+     0 & 0 & \cdots & -\frac{1}{h_{N-1}} &\frac{1}{h_{N-1}} + \frac{1}{h_N} \\
      ),
 \end{align}
 \begin{align}
      V&= \frac{1}{12}\left(\mqty{
-        \qty(v_{0} +v_{1})h_0 \alpha+ \qty(v_{0} + 3v_{1})h_0 + \qty(3v_{1} +v_{2})h_1 & \qty(v_{1} +v_{2})h_1 & \cdots\\
+        \qty(v_{0} + 3v_{1})h_0 + \qty(3v_{1} +v_{2})h_1 & \qty(v_{1} +v_{2})h_1 & \cdots\\
         \qty(v_{1} +v_{2})h_1 & \qty(v_{1} + 3v_{2})h_1 + \qty(3v_{2} + v_{3})h_2 & \cdots\\
         \vdots & \vdots & \ddots\\
         0 & 0 & \cdots\\
@@ -198,21 +199,71 @@
         \cdots& 0 & 0\\
         \ddots  & \vdots& \vdots\\
         \cdots & h_{N-2}\qty(v_{N-2} + 3v_{N-1}) + h_{N-1}\qty(3v_{N-1} + v_{N})& h_{N-1}\qty(v_{N - 1} +v_{N})\\
-        \cdots & h_{N-1}\qty(v_{N - 1} +v_{N})& h_{N-1}\qty(v_{N-1} + 3v_{N}) + h_N\qty(3v_{N} + v_{N +1})+ \beta h_N\qty(v_{N} +v_{N+1}) \\
+        \cdots & h_{N-1}\qty(v_{N - 1} +v_{N})& h_{N-1}\qty(v_{N-1} + 3v_{N}) + h_N\qty(3v_{N} + v_{N +1})) \\
         }\right),
 \end{align}
 \begin{align}
     M&=
      \frac{1}{6}\mqty(
-     \alpha h_0 + 2h_0 + 2h_1 & h_1 & \cdots & 0 & 0\\
+     2h_0 + 2h_1 & h_1 & \cdots & 0 & 0\\
      h_1 & 2h_1 + 2h_2 & \cdots & 0 & 0\\
      \vdots & \vdots & \ddots & \vdots  & \vdots\\
      0 & 0 & \cdots & 2h_{N - 1} + 2h_{N} & h_N\\
-     0 & 0 & \cdots & h_N & 2h_{N} + 2h_{N+1}+\beta h_{N+1} \\
+     0 & 0 & \cdots & h_N & 2h_{N} + 2h_{N+1} \\
      ),
 \end{align}
 \begin{align}
     u&=\mqty(f_1 & \cdots & f_N)^T
 \end{align}
 となる。
+
+井戸型ポテシャルのシュレーディンガー方程式の数値計算の結果を図\ref{fig:eigenfunction}に示す。
+エネルギーの収束の様子を図\ref{fig:convergence}に示す。
+刻み幅に対して線形であり、収束が遅いことがわかる。
+
+\begin{figure}
+    \centering
+    \includegraphics[width=0.8\textwidth]{./figs/eigenfunction.pdf}
+    \caption{固有関数}
+    \label{fig:eigenfunction}
+\end{figure}
+\begin{figure}
+    \centering
+    \includegraphics[width=0.8\textwidth]{./figs/convergence.pdf}
+    \caption{エネルギー収束の様子。横軸は刻み幅、縦軸はエネルギーの相対誤差。}
+    \label{fig:convergence}
+\end{figure}
+\section{非斉次方程式}
+(\ref{eq:weak})から、
+\begin{align}
+    \int_0^L\qty(\dv{g}{x}\dv{f}{x} + g\lambda(1 - \frac{v}{\lambda})f)\dd{x}
+     &= 0 \label{eq:weak2}
+\end{align}
+となる。
+次の補完関数
+\begin{align}
+    N_p(x) = 
+    \begin{cases}
+        \frac{x-x_{p-1}}{h}&x_{p-1}<x<x_pの場合\\
+        \frac{x_{p+1} - 1}{h}&x_{p}<x<x_{p+1}の場合\\
+        0&\text{otherwise}
+    \end{cases}
+\end{align}
+により、
+\begin{align}
+    f(x) = \sum_{p=1}^N f_pN_p(x),\quad g(x) = \sum_{p=1}^N g_pN_p(x)
+\end{align}
+とし近似する。(\ref{eq:weak2})に代入すると、
+\begin{align}
+    \sum_{p=1}^N\sum_{q=1}^N\qty(\int_0^L\qty(\dv{N_p}{x}\dv{N_q}{x} + N_p\lambda(1 - \frac{v}{\lambda})N_q)\dd{x})f_qg_p = 0
+\end{align}
+となる。左辺第１項は
+\begin{align}
+    K_{pq} &= \int_0^L\dv{N_p}{x}\dv{N_q}{x}\dd{x}\notag\\
+     &= \frac{1}{h}\qty(-\delta_{p,q-1} + 2\delta_{p,q} - \delta_{p,q+1})
+\end{align}
+$v=0$の時左辺第２項は
+\begin{align}
+    \int_0^L N_pN_q\dd{x} = \frac{2h}{3}\delta_{p,q} + \frac{h}{6}(\delta_{p,q-1} + \delta_{p,q+1})
+\end{align}
 \end{document}
