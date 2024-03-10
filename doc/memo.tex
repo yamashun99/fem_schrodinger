@@ -61,16 +61,47 @@
 \begin{align}
     \int_0^Lg\qty(\dv[2]{x} + v)f\dd{x} &= \lambda\int_0^Lgf\dd{x}\notag\\
     \qty[g\dv{f}{x}]_0^L+\int_0^L\qty(-\dv{g}{x}\dv{f}{x} + gvf)\dd{x}
-     &= \lambda\int_0^Lgf\dd{x}
-\end{align}
-境界条件$f(0) = f(L) = 0$のとき、$g(0) = g(L) = 0$としてよく、
-\begin{align}
-    \int_0^L\qty(-\dv{g}{x}\dv{f}{x} + gvf)\dd{x}
      &= \lambda\int_0^Lgf\dd{x}\label{eq:weak}
 \end{align}
 となる。  任意の$g$に対して(\ref{eq:weak})が成り立つとき、$f$は(\ref{eq:eigen})の弱解である。
 \subsection{有限要素法}
 %(\ref{eq:weak})の被積分関数は、$\dv{g}{x}\dv{f}{x}$と$h(x)g(x)f(x)$からなる。
+関数
+\begin{align}
+    N_p(x) = 
+    \begin{cases}
+        \dfrac{x-x_{p-1}}{h_{p-1}}&x_{p-1}<x<x_p,\\
+        \dfrac{x_{p+1} - x}{h_p}&x_{p}<x<x_{p+1},\\
+        0&\text{otherwise},
+    \end{cases}
+\end{align}
+を導入する。$g(x) = \sum_{p=1}^N g_pN_p(x)$, $f(x) = \sum_{q=1}^N f_qN_q(x)$と近似すると、
+\begin{align}
+    -\int_0^L \dv{g}{x}\dv{f}{x}\dd{x}
+     =& -\sum_{p, q}\bigg(\delta_{p - 1, q}\dfrac{-1}{h_{p-1}}\cdot\dfrac{1}{h_{p-1}}\cdot h_{p-1}
+      + \delta_{q, p}\qty(\dfrac{1}{h_{p-1}}\cdot\dfrac{1}{h_{p-1}}\cdot h_{p-1} + \dfrac{-1}{h_{p}}\cdot\dfrac{-1}{h_{p}}\cdot h_{p})\notag\\
+      &+ \delta_{q, p + 1}\dfrac{1}{h_{p}}\cdot\dfrac{-1}{h_{p}}\cdot h_{p}
+      \bigg)\notag\\
+     =& \sum_{p, q}\bigg(\delta_{q, p - 1}\dfrac{1}{h_{p-1}}
+      + \delta_{q, p}\qty(\dfrac{1}{h_{p-1}} + \dfrac{-1}{h_{p-1}})+ \delta_{q, p + 1}\dfrac{1}{h_{p}}
+      \bigg),
+\end{align}
+\begin{align}
+    \int_0^L gf\dd{x}
+     =& \sum_{p, q}\bigg(\delta_{q, p - 1}\int_{x_{p-1}}^{x_p}\dfrac{x_{p} - x}{h_{p-1}}\cdot\dfrac{x-x_{p-1}}{h_{p-1}}\dd{x}\notag\\
+      &+ \delta_{q, p}\qty(\int_{x_{p-1}}^{x_p}\dfrac{x-x_{p-1}}{h_{p-1}}\cdot\dfrac{x-x_{p-1}}{h_{p-1}}\dd{x}
+       + \int_{x_{p}}^{x_{p+1}}\dfrac{x_{p+1} - x}{h_{p}}\cdot\dfrac{x_{p+1} - x}{h_{p}}\dd{x})\notag\\
+      &+ \delta_{q, p + 1}\int_{x_{p}}^{x_{p+1}}\dfrac{x-x_{p}}{h_{p}}\cdot\dfrac{x_{p+1} -x}{h_{p}}\cdot h_{p}
+      \bigg)\notag\\
+      =& \sum_{p, q}\bigg(\delta_{q, p - 1}\dfrac{h_{p-1}}{6}
+      + \delta_{q, p}\qty(\dfrac{h_{p-1}}{3} + \dfrac{h_{p}}{3})+ \delta_{q, p + 1}\dfrac{h_{p}}{6}\bigg)
+\end{align}
+\begin{align}
+    \qty[g\dv{f}{x}]_0^L
+    = \delta_{p, N-1}\delta_{q, N}\int_{x_{N-1}}^{x_N}\dfrac{-1}{h_{N-1}}\cdot\dfrac{x-x_{N-1}}{h_{N-1}}\dd{x}g_q f_p
+\end{align}
+となる。
+
 区間$\qty[0,L]$を$N$等分する。$l$番目の区間を$[x^l_0,x^l_1]$とし、$g_{0(1)} = g(x=x^l_{0(1)})$, $f_{0(1)} = f(x=x^l_{0(1)})$, $h^l = x^l_1 - x^l_0$とすると、
 \begin{align}
     g(x) &= \frac{x^l_1 - x}{h^l}g_0 + \frac{x-x^l_0}{h^l}g_1,\\
@@ -174,7 +205,7 @@
 \end{align}
 となる。
 
-ディリクレ境界条件$f(0) = f_0 = \alpha$, $f(L) = f_{N+1} = \beta$を課すと
+ディリクレ境界条件$f(0) = f_0 = 0$, $f(L) = f_{N+1} = 0$を課すと
 \begin{align}
     K&=
      \mqty(
@@ -212,14 +243,13 @@
      0 & 0 & \cdots & h_N & 2h_{N} + 2h_{N+1} \\
      ),
 \end{align}
-\begin{align}
-    u&=\mqty(f_1 & \cdots & f_N)^T
-\end{align}
+%\begin{align}
+%    u=\mqty(f_1 & \cdots & f_N)^T
+%\end{align}
 となる。
-
 井戸型ポテシャルのシュレーディンガー方程式の数値計算の結果を図\ref{fig:eigenfunction}に示す。
-エネルギーの収束の様子を図\ref{fig:convergence}に示す。
-刻み幅に対して線形であり、収束が遅いことがわかる。
+エネルギーの収束の様子を図\ref{fig:convergence}, \ref{fig:convergence_sqrt}に示す。
+$\mathcal{O}(h^2)$で収束することがわかる。
 
 \begin{figure}
     \centering
@@ -232,6 +262,12 @@
     \includegraphics[width=0.8\textwidth]{./figs/convergence.pdf}
     \caption{エネルギー収束の様子。横軸は刻み幅、縦軸はエネルギーの相対誤差。}
     \label{fig:convergence}
+\end{figure}
+\begin{figure}
+    \centering
+    \includegraphics[width=0.8\textwidth]{./figs/convergence_sqrt.pdf}
+    \caption{エネルギー収束の様子。横軸は刻み幅、縦軸はエネルギーの相対誤差の平方根。}
+    \label{fig:convergence_sqrt}
 \end{figure}
 \section{非斉次方程式}
 (\ref{eq:weak})から、

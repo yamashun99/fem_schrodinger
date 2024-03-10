@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.141592653-2.6-0.999993 (TeX Live 2022/dev/Debian) (preloaded format=xelatex 2023.5.31)  3 MAR 2024 20:07
+This is XeTeX, Version 3.141592653-2.6-0.999993 (TeX Live 2022/dev/Debian) (preloaded format=xelatex 2023.5.31)  10 MAR 2024 11:18
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -622,18 +622,20 @@ LaTeX Font Info:    Font shape `TU/NotoSansCJKjp-Light(0)/m/n' will be
 (Font)              scaled to size 11.09656pt on input line 21.
  [1
 
-] [2]
-Overfull \hbox (46.73874pt too wide) detected at line 155
+] [2] [3]
+Overfull \hbox (46.73874pt too wide) detected at line 186
 []
  []
 
-[3] [4]
+[4]
 File: ./figs/eigenfunction.pdf Graphic file (type pdf)
 <use ./figs/eigenfunction.pdf>
 LaTeX Font Info:    Font shape `TU/NotoSerifCJKjp-Light(0)/m/n' will be
-(Font)              scaled to size 8.32242pt on input line 227.
+(Font)              scaled to size 8.32242pt on input line 257.
 File: ./figs/convergence.pdf Graphic file (type pdf)
 <use ./figs/convergence.pdf>
+File: ./figs/convergence_sqrt.pdf Graphic file (type pdf)
+<use ./figs/convergence_sqrt.pdf>
 
 Missing character: There is no の ("306E) in font cmmi10!
 Missing character: There is no 場 (U+5834) in font [lmroman10-regular]:mapping=tex-text;!
@@ -652,10 +654,10 @@ Package rerunfilecheck Info: File `memo.out' has not changed.
 (rerunfilecheck)             Checksum: 08850D3C7273AAA28DB4767A560C719F;497.
  ) 
 Here is how much of TeX's memory you used:
- 15206 strings out of 476191
- 312933 string characters out of 5812072
- 696493 words of memory out of 5000000
- 35696 multiletter control sequences out of 15000+600000
+ 15215 strings out of 476191
+ 313215 string characters out of 5812072
+ 694554 words of memory out of 5000000
+ 35704 multiletter control sequences out of 15000+600000
  479871 words of font info for 101 fonts, out of 8000000 for 9000
  1353 hyphenation exceptions out of 8191
  105i,18n,112p,496b,440s stack positions out of 5000i,500n,10000p,200000b,80000s
