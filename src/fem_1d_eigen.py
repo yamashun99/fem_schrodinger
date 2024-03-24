@@ -20,15 +20,15 @@ class Fem1dEigen:
         # Populate the K matrix
         for i in range(self.size):
             if i == 0:
-                K[i, i] = 1 / self.hs[i]
-                K[i, i + 1] = -1 / self.hs[i]
+                K[i, i] = -1 / self.hs[i]
+                K[i, i + 1] = 1 / self.hs[i]
             elif i == self.size - 1:
-                K[i, i] = 1 / self.hs[i - 1]
-                K[i, i - 1] = -1 / self.hs[i - 1]
+                K[i, i] = -1 / self.hs[i - 1]
+                K[i, i - 1] = 1 / self.hs[i - 1]
             else:
-                K[i, i - 1] = -1 / self.hs[i - 1]
-                K[i, i] = 1 / self.hs[i - 1] + 1 / self.hs[i]
-                K[i, i + 1] = -1 / self.hs[i]
+                K[i, i - 1] = 1 / self.hs[i - 1]
+                K[i, i] = -1 / self.hs[i - 1] - 1 / self.hs[i]
+                K[i, i + 1] = 1 / self.hs[i]
         return K
 
     def get_M(self):
@@ -55,11 +55,11 @@ class Fem1dEigen:
                 V[i, i] = (3 * self.v[i] + self.v[i + 1]) * self.hs[i]
                 V[i, i + 1] = (self.v[i] + self.v[i + 1]) * self.hs[i]
             elif i == self.size - 1:
-                V[i, i] = (self.v[i - 1] + 3 * self.v[i]) * self.hs[i - 1]
                 V[i, i - 1] = (self.v[i - 1] + self.v[i]) * self.hs[i - 1]
+                V[i, i] = (self.v[i - 1] + 3 * self.v[i]) * self.hs[i - 1]
             else:
-                V[i, i] = (3 * self.v[i - 1] + self.v[i]) * self.hs[i - 1] + (
-                    self.v[i] + 3 * self.v[i + 1]
+                V[i, i] = (self.v[i - 1] + 3 * self.v[i]) * self.hs[i - 1] + (
+                    3 * self.v[i] + self.v[i + 1]
                 ) * self.hs[i]
                 V[i, i - 1] = (self.v[i - 1] + self.v[i]) * self.hs[i - 1]
                 V[i, i + 1] = (self.v[i] + self.v[i + 1]) * self.hs[i]
