@@ -47,23 +47,6 @@ class Fem1dEigen:
 
         return M / 6
 
-    # def get_K1(self, v):
-    #    K = np.zeros((self.size, self.size))
-    #    for i in range(self.size):
-    #        if i == 0:
-    #            K[i, i] = (3 * v[i] + v[i + 1]) * self.hs[i]
-    #            K[i, i + 1] = (v[i] + v[i + 1]) * self.hs[i]
-    #        elif i == self.size - 1:
-    #            K[i, i - 1] = (v[i - 1] + v[i]) * self.hs[i - 1]
-    #            K[i, i] = (v[i - 1] + 3 * v[i]) * self.hs[i - 1]
-    #        else:
-    #            K[i, i] = (v[i - 1] + 3 * v[i]) * self.hs[i - 1] + (
-    #                3 * v[i] + v[i + 1]
-    #            ) * self.hs[i]
-    #            K[i, i - 1] = (v[i - 1] + v[i]) * self.hs[i - 1]
-    #            K[i, i + 1] = (v[i] + v[i + 1]) * self.hs[i]
-    #    return K / 12
-
     def get_K1(self, v):
         K = np.zeros((self.size, self.size))
         for i in range(self.size):
