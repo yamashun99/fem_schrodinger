@@ -46,6 +46,18 @@ class Mel2d:
                     K[t[e][i], t[e][j]] += Ke[i, j]
         return K.tocsr()  # Convert to CSR format for efficient operations
 
+    def mass_matrix(self):
+        p, t, b = self.generate_mesh()
+        M = lil_matrix((self.n * self.m, self.n * self.m))
+        for e in range(len(t)):
+            Pe = np.hstack((np.ones((3, 1)), p[t[e]]))
+            Area = 0.5 * np.abs(np.linalg.det(Pe))
+            Me = Area / 12 * np.array([[2, 1, 1], [1, 2, 1], [1, 1, 2]])
+            for i in range(3):
+                for j in range(3):
+                    M[t[e][i], t[e][j]] += Me[i, j]
+        return M.tocsr()
+
     def force(self):
         p, t, b = self.generate_mesh()
         f = np.zeros(self.n * self.m)
@@ -56,6 +68,22 @@ class Mel2d:
             for i in range(3):
                 f[t[e][i]] += fe[i]
         return f
+
+    def remove_row_col_csr(self, csr, rows_to_remove, cols_to_remove):
+        """
+        csr: CSR matrix from which rows and columns are to be removed
+        rows_to_remove: list of zero-based indices of the rows to remove
+        cols_to_remove: list of zero-based indices of the columns to remove
+        """
+        # 行を削除
+        mask_row = np.isin(np.arange(csr.shape[0]), rows_to_remove, invert=True)
+        reduced_csr = csr[mask_row]
+
+        # 列を削除
+        mask_col = np.isin(np.arange(reduced_csr.shape[1]), cols_to_remove, invert=True)
+        reduced_csr = reduced_csr[:, mask_col]
+
+        return reduced_csr
 
     def boundary_condition(self):
         p, t, b = self.generate_mesh()
